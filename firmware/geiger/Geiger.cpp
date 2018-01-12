@@ -101,7 +101,7 @@ void static geiger_rising(void) {
 
 	timer_generate_update(TIMER3);
 	timer_resume(TIMER3);
-	buzzer_nonblocking_buzz(0.1, enable_beep, headphones_output);
+	buzzer_nonblocking_buzz(0.05, enable_beep, headphones_output);
 }
 
 /**
