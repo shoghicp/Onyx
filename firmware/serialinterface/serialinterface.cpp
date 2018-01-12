@@ -20,7 +20,7 @@
 #include "captouch.h"
 #include "power.h"
 #include "libjson.h"
-#include "controller.h"
+#include "Controller.h"
 #include "power.h"
 
 extern "C" {
