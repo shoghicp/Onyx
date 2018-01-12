@@ -120,8 +120,8 @@ int main(void) {
 		char revtext[10];
 		sprintf(revtext, "VERSION: %s ", OS100VERSION);
 		display_splashscreen(devicetag, revtext);
-		buzzer_morse("IMI"); // Hello :)
-		delay_us(2000000);
+		//buzzer_morse("IMI"); // Hello :)
+		delay_us(1000000);
 		display_clear(0);
 		bool full = flashstorage_log_isfull();
 		if (full == true) {
