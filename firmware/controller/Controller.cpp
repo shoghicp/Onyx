@@ -1386,7 +1386,7 @@ void Controller::check_sleep_switch() {
 		char revtext[10];
 		sprintf(revtext, "VERSION: %s ", OS100VERSION);
 		display_splashscreen(devicetag, revtext);
-		delay_us(3000000);
+		delay_us(1000000);
 		display_clear(0);
 
 		m_sleeping = false;
