@@ -1,6 +1,7 @@
 #include "flashstorage.h"
 #include "flash.h"
 #include "utils.h"
+#include "myconfig.h"
 #include "safecast_wirish_types.h"
 #include "display.h"
 #include "log.h"
@@ -648,7 +649,7 @@ void flashstorage_keyval_update() {
 		display_set_brightness(c);
 	}
 
-	const char *sbeep = flashstorage_keyval_get("GEIGERBEEP");
+	const char *sbeep = flashstorage_keyval_get("GEIGERBEEP" DEFAULT_GEIGERBEEP);
 	if (sbeep != 0) {
 		if (!system_controller->m_sleeping) {
 			if (strcmp(sbeep, "true") == 0) {
@@ -659,7 +660,7 @@ void flashstorage_keyval_update() {
 		}
 	}
 
-	const char *scpmcps = flashstorage_keyval_get("CPMCPSAUTO");
+	const char *scpmcps = flashstorage_keyval_get("CPMCPSAUTO", DEFAULT_CPMCPSAUTO);
 	if (scpmcps != 0) {
 		if (strcmp(scpmcps, "true") == 0) {
 			system_controller->m_cpm_cps_switch = true;

@@ -15,6 +15,7 @@
 #define DEFAULT_LOGINTERVAL "60"
 #define DEFAULT_PULSE "10"
 #define DEFAULT_DIMDELAY "20"
+#define DEFAULT_CPMCPSAUTO "true"
 
 //Default duration for timed counter
 #define DEFAULT_COUNTERWIN "600"
