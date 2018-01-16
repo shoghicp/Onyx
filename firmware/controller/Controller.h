@@ -92,6 +92,7 @@ private:
   uint8_t	enabled_modes;	// What operating modes are enabled
   uint8_t   next_mode_label;
   uint32_t	qr_last_update;   // Used to limit the rate of QR code updates
+  uint32_t  m_start_time;
   bool      m_neverdim;
   uint8_t 	dim_delay;		  // Delay before dimming
   void event_opmode(const char *event,uint8_t mode_val);
