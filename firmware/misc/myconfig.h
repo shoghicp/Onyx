@@ -3,7 +3,7 @@
 
 #define DEFAULT_DEVICETAG "shogcake"
 #define DEFAULT_LANGUAGE "English"
-#define DEFAULT_WARNCPM "300"
+#define DEFAULT_WARNCPM "180"
 
 //255 all modes, 1 | 2 | 4 | 8 = 15 (no beq, no qr)
 #define DEFAULT_OPMODES "15"
