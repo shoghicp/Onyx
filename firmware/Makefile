@@ -1,4 +1,4 @@
-OS100VERSION := $(shell cat $(TOP)RELEASENUMBER)
+OS100VERSION := $(shell cat $(TOP)RELEASENUMBER)-$(shell git rev-parse --short HEAD)
 RELEASE_NAME := firmware-$(OS100VERSION)
 
 CFLAGS := -Os -gdwarf-2 -mcpu=cortex-m3 -mthumb -march=armv7-m \

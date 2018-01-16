@@ -4,6 +4,7 @@
 
 #include "wirish_boards.h"
 #include "safecast_config.h"
+#include "myconfig.h"
 #include "buzzer.h"
 #include "flashstorage.h"
 
@@ -72,7 +73,7 @@ void buzzer_initialise() {
  */
 void buzzer_blocking_buzz(uint32_t time) {
   // buzz
-  uint32_t frequency = 440; // 440 Hz
+  uint32_t frequency = BUZZER_BLOCK_FREQUENCY; // 440 Hz
   uint32_t t = time*frequency*2/1e6; // Number of pulses to generate
   for(uint32_t n=0;n<t;n++) {
     gpio_toggle_bit(PIN_MAP[BUZZER_PWM].gpio_device, PIN_MAP[BUZZER_PWM].gpio_bit);

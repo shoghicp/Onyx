@@ -1,6 +1,7 @@
 #include "libmaple.h"
 #include "gpio.h"
 #include "safecast_config.h"
+#include "myconfig.h"
 #include "usart.h"
 #include "Geiger.h"
 #include <stdio.h>
@@ -194,7 +195,7 @@ void cmd_logstatus(char *line) {
   json_set_name(n2, "logstatus");
   json_push_back(n2, json_new_i("used", flashstorage_log_currentrecords()));
   json_push_back(n2, json_new_i("total", flashstorage_log_maxrecords()));
-  const char *sloginter = flashstorage_keyval_get("LOGINTERVAL");
+  const char *sloginter = flashstorage_keyval_get("LOGINTERVAL", DEFAULT_LOGINTERVAL);
   uint32_t c = 0;
   if(sloginter != 0) {
     sscanf(sloginter, "%"PRIu32"", &c);
@@ -290,7 +291,7 @@ void cmd_version(char *line) {
  * Outputs device tag
  */
 void cmd_getdevicetag(char *line) {
-  const char *devicetag = flashstorage_keyval_get("DEVICETAG");
+  const char *devicetag = flashstorage_keyval_get("DEVICETAG", DEFAULT_DEVICETAG);
   JSONNODE *n = json_new(JSON_NODE);
   if(devicetag != 0) {
     json_push_back(n, json_new_a("devicetag", devicetag));
@@ -307,7 +308,7 @@ void cmd_getdevicetag(char *line) {
  * Outputs QR Code template string
  */
 void cmd_getqrtemplate(char *line) {
-  const char *qr = flashstorage_keyval_get("QRTEMPLATE");
+  const char *qr = flashstorage_keyval_get("QRTEMPLATE", DEFAULT_QRTEMPLATE);
   JSONNODE *n = json_new(JSON_NODE);
   if(qr != 0) {
     json_push_back(n, json_new_a("qr", qr));
@@ -325,7 +326,7 @@ void cmd_getqrtemplate(char *line) {
  * 0 means never dim.
  */
 void cmd_getdim() {
-	const char *ddim = flashstorage_keyval_get("DIMDELAY");
+	const char *ddim = flashstorage_keyval_get("DIMDELAY", DEFAULT_DIMDELAY);
 	  JSONNODE *n = json_new(JSON_NODE);
 	  if (ddim != 0) {
 	    json_push_back(n, json_new_a("dim", ddim));

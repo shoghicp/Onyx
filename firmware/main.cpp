@@ -7,6 +7,7 @@
 #include "wirish_boards.h"
 #include "power.h"
 #include "safecast_config.h"
+#include "myconfig.h"
 
 #include "UserInput.h"
 #include "Geiger.h"
@@ -116,7 +117,7 @@ int main(void) {
 		c.m_sleeping = false;
 
 		display_powerup();
-		const char *devicetag = flashstorage_keyval_get("DEVICETAG");
+		const char *devicetag = flashstorage_keyval_get("DEVICETAG", DEFAULT_DEVICETAG);
 		char revtext[10];
 		sprintf(revtext, "VERSION: %s ", OS100VERSION);
 		display_splashscreen(devicetag, revtext);
@@ -143,7 +144,7 @@ int main(void) {
 	// TODO Need to refactor out stored settings
 	flashstorage_keyval_update();
 
-	const char *language = flashstorage_keyval_get("LANGUAGE");
+	const char *language = flashstorage_keyval_get("LANGUAGE", DEFAULT_LANGUAGE);
 	if (language != 0) {
 		if (strcmp(language, "English") == 0) {
 			m_gui.set_language(LANGUAGE_ENGLISH);

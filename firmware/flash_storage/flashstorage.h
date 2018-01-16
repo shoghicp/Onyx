@@ -12,7 +12,7 @@ void flashstorage_initialise();
 
 
 // Get-set settings
-const char *flashstorage_keyval_get(const char *key);
+const char *flashstorage_keyval_get(const char *key, const char* defaultValue = 0);
 void flashstorage_keyval_set(const char *key,const char *value);
 void flashstorage_keyval_by_idx(int idx,char *key,char *val);
 void flashstorage_keyval_update();

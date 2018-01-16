@@ -361,14 +361,14 @@ void flashstorage_keyval_by_idx(int idx, char *key, char *val) {
  * returns a char* pointing to the value, or 0
  * if no key/value found
  */
-const char *flashstorage_keyval_get(const char *key) {
+const char *flashstorage_keyval_get(const char *key, const char* defaultValue) {
 
 	char *v = flashstorage_keyval_get_address(key);
 
 	if (v != 0)
 		return v + FLASH_KEYVAL_SIZE;
 
-	return 0;
+	return defaultValue;
 }
 
 /**

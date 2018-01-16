@@ -5,6 +5,7 @@
 #include "wirish_boards.h"
 #include "power.h"
 #include "safecast_config.h"
+#include "myconfig.h"
 #include "display.h"
 #include "utils.h"
 #include "dac.h"
@@ -101,7 +102,7 @@ void static geiger_rising(void) {
 
 	timer_generate_update(TIMER3);
 	timer_resume(TIMER3);
-	buzzer_nonblocking_buzz(0.05, enable_beep, headphones_output);
+	buzzer_nonblocking_buzz(BUZZER_DETECT_LENGTH, enable_beep, headphones_output);
 }
 
 /**

@@ -23,6 +23,7 @@
 #include <inttypes.h>
 #include "gpio.h"
 #include "safecast_config.h"
+#include "myconfig.h"
 
 #define UNITS_CPS 1
 #define UNITS_CPM 2
@@ -74,14 +75,14 @@ Controller::Controller() {
 
 	// Get warning cpm from flash
 	m_warncpm = 0;
-	const char *swarncpm = flashstorage_keyval_get("WARNCPM");
+	const char *swarncpm = flashstorage_keyval_get("WARNCPM", DEFAULT_WARNCPM);
 	if (swarncpm != 0) {
 		sscanf(swarncpm, "%"SCNd32"", &m_warncpm);
 	}
 
 	// Get enabled operating modes
 	enabled_modes = 255; // By default, all modes enabled
-	const char *opm = flashstorage_keyval_get("OPMODES");
+	const char *opm = flashstorage_keyval_get("OPMODES", DEFAULT_OPMODES);
 	if (opm != 0) {
 		sscanf(opm, "%"SCNu8"", &enabled_modes);
 	}
@@ -106,9 +107,9 @@ Controller::Controller() {
 	}
 
 	// Get QR Code template from flash or load default
-	const char *qtpl = flashstorage_keyval_get("QRTEMPLATE");
+	const char *qtpl = flashstorage_keyval_get("QRTEMPLATE", DEFAULT_QRTEMPLATE);
 	if (qtpl == 0) {
-		flashstorage_keyval_set("QRTEMPLATE", "http://twitter.com/home?status=CPM:%u");
+		flashstorage_keyval_set("QRTEMPLATE", DEFAULT_QRTEMPLATE);
 	}
 
 	// Restore/initialize dimming delay - 10 seconds by defaut
@@ -116,7 +117,7 @@ Controller::Controller() {
 
 	// Get "mute alarm" from flash
 	m_mute_alarm = false;
-	const char *mute = flashstorage_keyval_get("MUTEALARM");
+	const char *mute = flashstorage_keyval_get("MUTEALARM", DEFAULT_MUTEALARM);
 	if (mute != 0) {
 		if (strcmp(mute, "true") == 0)
 			m_mute_alarm = true;
@@ -125,7 +126,7 @@ Controller::Controller() {
 	tick_item("Mute alarm", m_mute_alarm);
 
 	// Restore Beep settings from flash
-	const char *beep = flashstorage_keyval_get("GEIGERBEEP");
+	const char *beep = flashstorage_keyval_get("GEIGERBEEP", DEFAULT_GEIGERBEEP);
 	if (strcmp(beep, "true") == 0) {
 		tick_item("Beep", true);
 	} else {
@@ -146,7 +147,7 @@ Controller::Controller() {
 	// We do not log by default
 	m_log_interval_seconds = 0;
 
-	const char *sloginter = flashstorage_keyval_get("LOGINTERVAL");
+	const char *sloginter = flashstorage_keyval_get("LOGINTERVAL", DEFAULT_LOGINTERVAL);
 	if (sloginter) {
 		int32_t c;
 		sscanf(sloginter, "%"PRIu32"", &c);
@@ -164,7 +165,7 @@ Controller::Controller() {
 	// We do not update the Geiger object because it initializes
 	// by itself, here we just want to get the default tick values
 	// for the menu
-	const char *spw = flashstorage_keyval_get("PULSE");
+	const char *spw = flashstorage_keyval_get("PULSE", DEFAULT_PULSE);
 	if (spw) {
 		if (strcmp(spw, "0") == 0) {
 			tick_item(" No pulse", true);
@@ -194,7 +195,7 @@ void Controller::set_gui(GUI &g) {
 void Controller::init_dimdelay() {
 
 	dim_delay = 10;
-	const char *dimd = flashstorage_keyval_get("DIMDELAY");
+	const char *dimd = flashstorage_keyval_get("DIMDELAY", DEFAULT_DIMDELAY);
 	if (dimd != 0) {
 		sscanf(dimd, "%"SCNu8"", &dim_delay);
 	}
@@ -430,7 +431,7 @@ void Controller::event_totaltimer() {
 	m_total_timer_start = realtime_get_unixtime();
 	system_geiger->reset_total_count();
 
-	const char *win = flashstorage_keyval_get("COUNTERWIN");
+	const char *win = flashstorage_keyval_get("COUNTERWIN", DEFAULT_COUNTERWIN);
 	if (win) {
 		uint32_t win_int;
 		sscanf(win, "%"PRIu32"", &win_int);
@@ -487,7 +488,7 @@ void Controller::event_neverdim(const char *event, const char *value) {
 		flashstorage_keyval_set("NEVERDIM", "false");
 		m_neverdim = false;
 		dim_delay = 10;
-		const char *dimd = flashstorage_keyval_get("DIMDELAY");
+		const char *dimd = flashstorage_keyval_get("DIMDELAY", DEFAULT_DIMDELAY);
 		if (dimd != 0) {
 			sscanf(dimd, "%"SCNu8"", &dim_delay);
 		}
@@ -783,7 +784,7 @@ void Controller::event_becqscreen(const char *event, const char *value) {
 void Controller::event_getcountwin() {
 	int32_t win = 0; // by default, no limit
 
-	const char *val = flashstorage_keyval_get("COUNTERWIN");
+	const char *val = flashstorage_keyval_get("COUNTERWIN", DEFAULT_COUNTERWIN);
 	if (val != NULL) {
 		sscanf(val, "%"PRIi32"", &win);
 	}
@@ -810,7 +811,7 @@ void Controller::event_getcountwin() {
 void Controller::event_sendcountwin() {
 	int32_t win = 0; // by default, no limit
 
-	const char *val = flashstorage_keyval_get("COUNTERWIN");
+	const char *val = flashstorage_keyval_get("COUNTERWIN", DEFAULT_COUNTERWIN);
 	if (val != NULL) {
 		sscanf(val, "%"PRIi32"", &win);
 	}
@@ -830,7 +831,7 @@ void Controller::event_sendcountwin() {
 void Controller::event_loginterval() {
 	int32_t log_interval = 0; // We do not log by default
 
-	const char *val = flashstorage_keyval_get("LOGINTERVAL");
+	const char *val = flashstorage_keyval_get("LOGINTERVAL", DEFAULT_LOGINTERVAL);
 	if (val != NULL) {
 		sscanf(val, "%"PRIi32"", &log_interval);
 	}
@@ -849,7 +850,7 @@ void Controller::event_loginterval() {
 
 void Controller::event_warnscreen(const char *event, const char *value) {
 	int32_t warn_level = 0;
-	const char *val = flashstorage_keyval_get("WARNCPM");
+	const char *val = flashstorage_keyval_get("WARNCPM", DEFAULT_WARNCPM);
 	if (val != NULL) {
 		sscanf(val, "%"PRIi32"", &warn_level);
 	}
@@ -1067,7 +1068,7 @@ void Controller::event_audioxfer(const char *event, const char *value) {
 void Controller::event_qrtweet() {
 	char str[80];
 
-	const char* qr_template = flashstorage_keyval_get("QRTEMPLATE");
+	const char* qr_template = flashstorage_keyval_get("QRTEMPLATE", DEFAULT_QRTEMPLATE);
 	if (qr_template != 0) {
 		unsigned int cpm = (unsigned int) floor(
 				system_geiger->get_cpm_deadtime_compensated() + 0.5);
@@ -1381,7 +1382,7 @@ void Controller::check_sleep_switch() {
 		display_powerup();
 		cap_init(); // Make sure keyboard is re-enabled
 
-		const char *devicetag = flashstorage_keyval_get("DEVICETAG");
+		const char *devicetag = flashstorage_keyval_get("DEVICETAG", DEFAULT_DEVICETAG);
 		char revtext[10];
 		sprintf(revtext, "VERSION: %s ", OS100VERSION);
 		display_splashscreen(devicetag, revtext);
