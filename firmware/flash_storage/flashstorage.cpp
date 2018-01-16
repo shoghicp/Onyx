@@ -366,9 +366,13 @@ const char *flashstorage_keyval_get(const char *key, const char* defaultValue) {
 
 	char *v = flashstorage_keyval_get_address(key);
 
-	if (v != 0)
+	if (v != 0){
 		return v + FLASH_KEYVAL_SIZE;
-
+	}
+	
+	if(defaultValue != 0){
+		flashstorage_keyval_set(key, defaultValue);
+	}
 	return defaultValue;
 }
 

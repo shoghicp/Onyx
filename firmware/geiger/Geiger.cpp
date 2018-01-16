@@ -164,7 +164,7 @@ void Geiger::initialise() {
 
 	// Restore the pulse width settings:
 	uint16_t pwidth = 0;
-	const char *spulsewidth = flashstorage_keyval_get("PULSE");
+	const char *spulsewidth = flashstorage_keyval_get("PULSE", DEFAULT_PULSE);
 	if (spulsewidth != 0) {
 		sscanf(spulsewidth, "%"SCNu16"", &pwidth);
 	}
