@@ -37,6 +37,9 @@ Controller *system_controller;
 #define OPMODE_BECQ 16
 #define OPMODE_QRCODE 32
 
+//Minimum count time, to prevent instant false alarms when waking up. Set to 0 to disable.
+#define ALARM_MIN_MEASURE_TIME 15
+
 /**
  * Initialize the system controller. In particular:
  *   - Load settings
@@ -60,7 +63,8 @@ Controller::Controller() {
 	m_warning_raised = false;
 	m_dim_off = false;
 
-	qr_last_update = realtime_get_unixtime();
+	m_start_time = realtime_get_unixtime();
+	qr_last_update = m_start_time;
 
 	m_cpm_cps_switch = false;
 	m_displaying_cps = false; // For hysteresis
@@ -1231,8 +1235,9 @@ void Controller::check_warning_level() {
 	// 2 minutes of harmful levels because the Onyx considers the reading as not valid
 	// yet !
 	if ((m_warncpm > 0)) {
+		uint32 start_diff = realtime_get_unixtime() - m_start_time;
 		float cpm = system_geiger->get_cpm_deadtime_compensated();
-		if ((cpm >= m_warncpm) && (m_warning_raised == false)) {
+		if ((start_diff > ALARM_MIN_MEASURE_TIME) && (cpm >= m_warncpm) && (m_warning_raised == false)) {
 			if (m_sleeping)
 				display_powerup();
 
@@ -1240,7 +1245,7 @@ void Controller::check_warning_level() {
 			m_dim_off = true;
 			m_gui->set_cpm_alarm(true, m_mute_alarm,
 					system_geiger->get_cpm_deadtime_compensated());
-		} else if ((cpm < m_warncpm) && (m_warning_raised == true)) {
+		} else if (((start_diff <= ALARM_MIN_MEASURE_TIME) || (cpm < m_warncpm)) && (m_warning_raised == true)) {
 			// We are back to normal
 			m_warning_raised = false;
 			m_gui->set_cpm_alarm(false, m_mute_alarm, 0);
