@@ -650,7 +650,7 @@ void flashstorage_keyval_update() {
 		display_set_brightness(c);
 	}
 
-	const char *sbeep = flashstorage_keyval_get("GEIGERBEEP" DEFAULT_GEIGERBEEP);
+	const char *sbeep = flashstorage_keyval_get("GEIGERBEEP", DEFAULT_GEIGERBEEP);
 	if (sbeep != 0) {
 		if (!system_controller->m_sleeping) {
 			if (strcmp(sbeep, "true") == 0) {
