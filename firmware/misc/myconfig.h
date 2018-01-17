@@ -10,9 +10,14 @@
 
 #define DEFAULT_QRTEMPLATE "http://twitter.com/home?status=CPM:%u"
 
-#define DEFAULT_MUTEALARM "false"
-#define DEFAULT_GEIGERBEEP "false"
-#define DEFAULT_LOGINTERVAL "60"
+//#define DEFAULT_MUTEALARM "false"
+#define DEFAULT_MUTEALARM 0
+//#define DEFAULT_GEIGERBEEP "false"
+#define DEFAULT_GEIGERBEEP 0
+
+//#define DEFAULT_LOGINTERVAL "60"
+#define DEFAULT_LOGINTERVAL 0
+
 #define DEFAULT_PULSE "10"
 #define DEFAULT_DIMDELAY "20"
 #define DEFAULT_CPMCPSAUTO "true"
@@ -25,7 +30,7 @@
 
 
 
-#define BUZZER_DETECT_LENGTH 0.01
+#define BUZZER_DETECT_LENGTH 0.005
 
 // 440 Hz
 #define BUZZER_BLOCK_FREQUENCY 440

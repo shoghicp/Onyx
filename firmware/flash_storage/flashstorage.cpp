@@ -370,9 +370,6 @@ const char *flashstorage_keyval_get(const char *key, const char* defaultValue) {
 		return v + FLASH_KEYVAL_SIZE;
 	}
 	
-	if(defaultValue != 0){
-		flashstorage_keyval_set(key, defaultValue);
-	}
 	return defaultValue;
 }
 
